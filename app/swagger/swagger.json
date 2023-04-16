@@ -1,0 +1,198 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API DOCUMENTATION FOR AGENTBOOK TEST",
+    "version": "1.0.0",
+    "title": "AGENT BOOK TEST APIS",
+    "contact": {
+      "email": ""
+    }
+  },
+  "schemes": ["http"],
+  "host": "localhost:5003",
+  "basePath": "/api/v1",
+  "paths": {
+    "/Signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "SignUp New User",
+        "description": "It will return an integration token for performing further opertaions using voucherek api's",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "handshake object which contains a attribute 'store' with its value",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/signupBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/signupSuccess"
+            }
+          }
+        }
+      }
+    },
+    "/Login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User Login",
+        "description": "Checks if the user is verfied or not for performing futher operation using voucherek api's",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login Body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/loginSuccess"
+            }
+          },
+          "401": {
+            "description": "Invalid user",
+            "schema": {
+              "$ref": "#/definitions/loginFail"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "signupBody": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "Saad123"
+        },
+        "password": {
+          "type": "string",
+          "example": "12345678"
+        },
+        "name": {
+          "type": "string",
+          "example": "saad"
+        },
+        "address": {
+          "type": "string",
+          "example": "garden east"
+        },
+        "email": {
+          "type": "string",
+          "example": "saad@gmai.com"
+        }
+      }
+    },
+    "signupSuccess": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "code": {
+          "type": "number",
+          "example": "200"
+        },
+        "message": {
+          "type": "string",
+          "example": "Logged In Succesfully"
+        },
+        "data": {
+          "type": "object"
+        },
+        "accessToken": {
+          "type": "string"
+        }
+      }
+    },
+    "loginBody": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "saad@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "12345678"
+        }
+      }
+    },
+    "loginSuccess": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "code": {
+          "type": "number",
+          "example": "200"
+        },
+        "message": {
+          "type": "string",
+          "example": "Logged In Succesfully"
+        },
+        "data": {
+          "type": "object"
+        },
+        "accessToken": {
+          "type": "string"
+        }
+      }
+    },
+    "userNotFound": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": false
+        },
+        "code": {
+          "type": "number",
+          "example": "404"
+        },
+        "message": {
+          "type": "string",
+          "example": "User Not Found !"
+        }
+      }
+    },
+    "loginFail": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": false
+        },
+        "code": {
+          "type": "number",
+          "example": "401"
+        },
+        "message": {
+          "type": "string",
+          "example": "Incorrect Email Or Password !"
+        }
+      }
+    }
+  }
+}

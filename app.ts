@@ -4,9 +4,12 @@ const session = require('express-session');
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const swaggerUi = require('swagger-ui-express');
 const logger = require("morgan");
 const cors = require("cors");
 const fs = require("fs");
+
+import swaggerDocument from './app/swagger/swagger.json';
 
 const globalAny: any = global;
 globalAny.ROOTPATH = __dirname;
@@ -35,6 +38,9 @@ app.set("view engine", "ejs");
 app.use('/cache', require('./app/cache'))
 app.use("/console", require('./routes/console'));
 app.use("/api", require("./routes/api"));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 require("./routes/web")(app);
 
 module.exports = app;

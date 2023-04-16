@@ -18,10 +18,19 @@ export class CardService {
         })
     }
 
-    find(): Promise<ICard[]> {
+    find(filterObject?: Array<Object>): Promise<ICard[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const card = CardModel.find().populate('assignee').populate('project')
+                let query = {};
+                if(filterObject){
+                    filterObject.map(x => {
+                        query = {
+                            ...query, 
+                            [x['type']]:x['ids'] 
+                        }
+                    })
+                }
+                const card = CardModel.find(query).populate('assignee').populate('project')
                 resolve(card)
             } catch (error) {
                 reject(error)
@@ -29,10 +38,32 @@ export class CardService {
         })
     }
 
-    findOne(id : Types.ObjectId): Promise<ICard> {
+    findOne(id: Types.ObjectId): Promise<ICard> {
         return new Promise(async (resolve, reject) => {
             try {
-                const card = CardModel.findOne({_id: id}).populate('assignee').populate('project')
+                const card = CardModel.findOne({ _id: id }).populate('assignee').populate('project')
+                resolve(card)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    update(id: Types.ObjectId, payload: ICard): Promise<ICard> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const card = CardModel.findOneAndUpdate({ _id: id }, payload, { new: true });
+                resolve(card)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    delete(id: Types.ObjectId): Promise<ICard> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const card = CardModel.findOneAndDelete({ _id: id });
                 resolve(card)
             } catch (error) {
                 reject(error)

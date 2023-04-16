@@ -6,7 +6,9 @@ export interface ICard {
     name: string;
     priority: string;
     type: string;
-    assignee: Types.ObjectId[];
+    assignee?: Types.ObjectId[];
     description: string;
     project: Types.ObjectId;
 }
+
+

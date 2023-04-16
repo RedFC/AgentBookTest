@@ -5,7 +5,7 @@ export class RoleMiddleware {
             compose()
                 // Attach user to request
                 .use((req, res, next) => {
-                    if (req.user.role == 'ADMIN') {
+                    if (req.user.role == 'Admin') {
                         next();
                     } else {
                         res.status(401).send({ success: false, msg: "Insufficient privileges." });
@@ -19,7 +19,7 @@ export class RoleMiddleware {
             compose()
                 // Attach user to request
                 .use((req, res, next) => {
-                    if (req.user.role == 'USER' || req.user.role == 'ADMIN') {
+                    if (req.user.role == 'User' || req.user.role == 'Admin') {
                         next();
                     } else {
                         res.status(401).send({ success: false, msg: "Insufficient privileges." });
